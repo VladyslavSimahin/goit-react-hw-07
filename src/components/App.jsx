@@ -1,16 +1,22 @@
 import { ContactForm } from "./contactForm/ContactForm";
 import { ContactList } from "./contactList/ContactList";
 import { SearchBox } from "./seachBox/SearchBox";
-import { useSelector } from "react-redux";
-import { selectContacts } from "../redux/contactsSlice";
+import React, { useEffect } from "react";
+import { fetchContacts } from "../redux/contacts";
+import { useDispatch } from "react-redux";
 export const App = () => {
-  const contacts = useSelector(selectContacts);
+  // const loading = useSelector(selectLoading);
+  // const error = useSelector(selectError);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchContacts());
+  }, [dispatch]);
   return (
     <div>
       <h1>Phonebook</h1>
       <ContactForm />
       <SearchBox />
-      {contacts.length ? <ContactList /> : <p>No contacts yet</p>}
+      <ContactList />
     </div>
   );
 };

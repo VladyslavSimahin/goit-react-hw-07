@@ -1,15 +1,10 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { addContact } from "../../redux/contactsSlice";
+import { addContact } from "../../redux/contacts";
 import css from "./ContactForm.module.css";
-import { nanoid } from "nanoid";
 
 export const ContactForm = () => {
-  const dispatch = useDispatch();
-  const nameFieldId = nanoid();
-  const numberFieldId = nanoid();
-
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .min(3, "Too Short!")
@@ -20,14 +15,22 @@ export const ContactForm = () => {
       .max(50, "Too Long!")
       .required("Required"),
   });
-  const handleSubmit = (values, actions) => {
-    const contact = {
-      id: nanoid(),
-      name: values.name,
-      number: values.number,
-    };
-    dispatch(addContact(contact));
-    actions.resetForm();
+  const dispatch = useDispatch();
+  const handleSubmit = (values, { resetForm }) => {
+    dispatch(
+      addContact({
+        name: values.name,
+        number: values.number,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        console.log("addContact fulfilled");
+        resetForm();
+      })
+      .catch((error) => {
+        console.error("addContact rejected:", error);
+      });
   };
 
   return (

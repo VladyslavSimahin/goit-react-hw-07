@@ -2,7 +2,7 @@ import { ContactForm } from "./contactForm/ContactForm";
 import { ContactList } from "./contactList/ContactList";
 import { SearchBox } from "./seachBox/SearchBox";
 import React, { useEffect } from "react";
-import { fetchContacts } from "../redux/contacts";
+import { fetchContacts } from "../redux/contactsOps";
 import { useDispatch } from "react-redux";
 export const App = () => {
   // const loading = useSelector(selectLoading);
